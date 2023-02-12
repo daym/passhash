@@ -49,15 +49,16 @@ function update()
     masterKeyLast = masterKey.value;
 }
 
-function onNoSpecial(fld)
+function onNoSpecial(e)
 {
+    let fld = e.target;
     document.getElementById('punctuation').disabled = fld.checked;
     update();
 }
 
-function onDigitsOnly(fld)
+function onDigitsOnly(e)
 {
-    document.getElementById('punctuation').disabled = fld.checked;
+    let fld = e.target;
     document.getElementById("digit"      ).disabled = fld.checked;
     document.getElementById("punctuation").disabled = fld.checked;
     document.getElementById("mixedCase"  ).disabled = fld.checked;
@@ -516,7 +517,9 @@ document.getElementById('master-key').focus();
 document.getElementById('master-key').onkeyup = update;
 document.getElementById('master-key').onchange = update;
 document.getElementById('bump').onclick = onBump;
-['size', 'digit', 'punctuation', 'mixedCase', 'noSpecial', 'digitsOnly'].forEach(e => {
+document.getElementById('digitsOnly').onchange = onDigitsOnly;
+document.getElementById('noSpecial').onchange = onNoSpecial;
+['size', 'digit', 'punctuation', 'mixedCase'].forEach(e => {
   document.getElementById(e).onchange = update;
 })
 document.form.onsubmit = function() {
