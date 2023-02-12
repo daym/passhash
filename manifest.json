@@ -1,0 +1,30 @@
+{
+  "name": "passhash",
+  "version": "1.0.0",
+  "description": "Login auth hash",
+  "permissions": [
+    "storage", "activeTab", "scripting", "tabs"
+  ],
+  "options_page": "options.html",
+  "action": {
+    "default_title": "Password hashing",
+    "default_popup": "popup.html"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L",
+        "mac": "Command+Shift+L"
+      },
+      "description": "Fill in password hash"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "manifest_version": 3,
+  "author": "Danny Milosavljevic"
+}

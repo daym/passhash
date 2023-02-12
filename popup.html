@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head>
+<title>Password Hasher</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<script async type="text/javascript" src="popup.js">
+</script>
+
+<style>
+<!--!skin:passhash-portable.css-->
+body {
+    background-color: #eeffee;
+    font-family: arial;
+}
+
+ul {
+    margin-left: 10px;
+    padding-left: 0px;
+    margin-top:0em;
+}
+
+li {
+    font-size: 10pt;
+    font-family: arial;
+    padding-top: .25em;
+    margin-top:0em;
+}
+
+.formfield {
+    font-size: 10pt;
+    font-family: serif;
+    width: 160px;
+}
+
+.formtable {
+    border: thin green solid;
+    padding: .3em;
+}
+
+.title {
+    font-size: 10pt;
+    font-family: arial;
+    font-weight: bold;
+    color: #6060a0;
+    text-align: center;
+}
+
+.result {
+    font-family: serif;
+    background-color: #d0d0f0;
+}
+
+.formlabel {
+    font-size: 9pt;
+    font-family: arial;
+    font-weight: bold;
+    color: #607888;
+    text-align: left;
+    width: 78px;
+}
+
+.optionbox {
+    border: thin silver solid;
+}
+
+.optionlabel {
+    font-size: 9pt;
+    font-family: arial;
+    font-weight: bold;
+    color: #607888;
+    text-align: left;
+}
+
+.optiontable {
+}
+
+.option {
+    font-size: 10pt;
+    font-family: arial;
+}
+
+.noteshead {
+    font-size: 10pt;
+    font-family: arial;
+    font-weight: bold;
+    padding-top: .5em;
+    color: #336633;
+}
+
+.prompt {
+    font-size: 10pt;
+    font-family: arial;
+    font-weight: normal;
+    color: #222288;
+    height: 40px;
+}
+
+.button {
+    width: 70px;
+}
+
+.password {
+    font-size: 10pt;
+    width: 160px;
+}
+</style>
+</head>
+
+<body>
+    <form name="form">
+        <table class="formtable">
+            <tbody>
+                <tr>
+                    <td class="title" colspan="2">Password Hasher</td>
+                </tr>
+                <tr>
+                    <td class="formlabel" colspan="2">Site Tag</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input id="site-tag" class="formfield">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formlabel" colspan="2">Master Key</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input id="master-key" class="password" phnomarkers="" type="password">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formlabel" colspan="2">Hash Word</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input id="hash-word" class="formfield result">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="submit" value="OK" class="button" type="submit">
+                    </td>
+                    <td>
+                        <input id="bump" value="Bump" class="button" type="button">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table class="optiontable">
+                            <tbody><tr>
+                                <td>
+                                    <div class="optionlabel">
+                                        Requirements
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input id="digit" class="option" checked="checked" type="checkbox">
+                                    <span class="option">
+                                        Digit
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input id="punctuation" class="option" checked="checked" type="checkbox">
+                                    <span class="option">
+                                        Punctuation
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input id="mixedCase" class="option" checked="checked" type="checkbox">
+                                    <span class="option">
+                                        Mixed Case
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody></table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table class="optiontable">
+                            <tbody><tr>
+                                <td>
+                                    <div class="optionlabel">
+                                        Restrictions
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input id="noSpecial" class="option" type="checkbox">
+                                    <span class="option">
+                                        No Special
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input id="digitsOnly" class="option" type="checkbox">
+                                    <span class="option">
+                                        Digits Only
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody></table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table class="optiontable">
+                            <tbody><tr>
+                                <td>
+                                    <div class="optionlabel">
+                                        Size
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr><td>
+                                <select id="size" name="size">
+                                  <option value="4">4</option>
+                                  <option value="6">6</option>
+                                  <option value="8">8</option>
+                                  <option value="10">10</option>
+                                  <option value="12">12</option>
+                                  <option value="14">14</option>
+                                  <option value="16" selected>16</option>
+                                  <option value="18">18</option>
+                                  <option value="20">20</option>
+                                  <option value="22">22</option>
+                                  <option value="24">24</option>
+                                  <option value="26">26</option>
+                                </select>
+                                </td>
+                            </tr>
+                        </tbody></table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</body></html>
