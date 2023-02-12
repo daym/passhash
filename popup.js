@@ -1179,7 +1179,7 @@ chrome.tabs.query({active:true, currentWindow: true}, tabs => {
     const tab = tabs[0];
     var siteTag   = document.getElementById('site-tag');
     let url = new URL(tab.url);
-    siteTag.value = url.hostname.replace(/[.]com$/i, '')
+    siteTag.value = url.hostname.replace(/[.]com$/i, '').replace(/^www[.]/i, '')
 })
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
