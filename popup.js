@@ -11,24 +11,7 @@ else if (navigator.appName.indexOf("Microsoft") != -1)
 var siteTagLast = '';
 var masterKeyLast = '';
 
-function validate(form) 
-{
-    var siteTag   = document.getElementById('site-tag');
-    var masterKey = document.getElementById('master-key');
-    if (!siteTag.value)
-    {
-        siteTag.focus();
-        return false;
-    }
-    if (!masterKey.value)
-    {
-        masterKey.focus();
-        return false;
-    }
-    return true;
-}
-
-function update() 
+function update()
 {
     var siteTag   = document.getElementById('site-tag');
     var masterKey = document.getElementById('master-key');
@@ -72,58 +55,6 @@ function update()
     }
     siteTagLast = siteTag.value;
     masterKeyLast = masterKey.value;
-}
-
-function onEnterField(fld, msg)
-{
-    // Select the field
-    try
-    {
-        fld.select();
-    }
-    catch (ex) {}
-    // Set the prompt
-    document.getElementById('prompt').innerHTML = msg;
-}
-
-function checkChange()
-{
-    var siteTag   = document.getElementById('site-tag');
-    var masterKey = document.getElementById('master-key');
-    var hashWord  = document.getElementById('hash-word');
-    if (siteTag.value != siteTagLast || masterKey.value != masterKeyLast)
-    {
-        hashWord.value = '';
-        siteTagLast = siteTag.value;
-        masterKeyLast = masterKey.value;
-    }
-    setTimeout('checkChange()', 1000);
-}
-
-function onEnterSubmitButton(fld)
-{
-    if (fld.value == 'Another')
-        onEnterField(fld, 'Start another hashword');
-    else
-        onEnterField(fld, 'Generate hashword');
-}
-
-function onLeaveField(fld)
-{
-    // Remove the selection (is this the best way?)
-    var v = fld.value;
-    fld.value = '';
-    fld.value = v;
-    // Remove the prompt
-    document.getElementById('prompt').innerHTML = '';
-}
-
-function onLeaveResultField(hashWord)
-{
-    var submit = document.getElementById('submit');
-    submit.value = 'OK';
-//    hashWord.value = '';
-    document.getElementById('prompt').innerHTML = '';
 }
 
 function onNoSpecial(fld)
