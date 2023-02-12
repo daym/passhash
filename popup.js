@@ -19,13 +19,12 @@ function update()
     else*/
     {
         //var hashapass = b64_hmac_sha1(masterKey.value, siteTag.value).substr(0,8);
-        var hashWordSize       = 8;
+        var hashWordSize       = size.value;
         var requireDigit       = document.getElementById("digit").checked;
         var requirePunctuation = document.getElementById("punctuation").checked;
         var requireMixedCase   = document.getElementById("mixedCase").checked;
         var restrictSpecial    = document.getElementById("noSpecial").checked;
         var restrictDigits     = document.getElementById("digitsOnly").checked;
-        hashWordSize = size.value;
         hashWord.value = PassHashCommon.generateHashWord(
                 siteTag.value,
                 masterKey.value,
