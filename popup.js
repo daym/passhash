@@ -1171,6 +1171,9 @@ document.getElementById('master-key').focus();
 document.getElementById('master-key').onkeyup = update;
 document.getElementById('master-key').onchange = update;
 document.getElementById('bump').onclick = onBump;
+['size', 'digit', 'punctuation', 'mixedCase', 'noSpecial', 'digitsOnly'].forEach(e => {
+  document.getElementById(e).onchange = update;
+})
 document.form.onsubmit = function() {
    window.close()
 };
