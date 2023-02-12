@@ -7,7 +7,7 @@
   ],
   "options_page": "options.html",
   "action": {
-    "default_title": "Password hashing",
+    "default_title": "Fill in hash derived from secret master password...",
     "default_popup": "popup.html"
   },
   "commands": {
