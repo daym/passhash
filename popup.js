@@ -512,8 +512,10 @@ var PassHashCommon =
     },
 }
 
+document.getElementById('site-tag').onchange = update;
+document.getElementById('site-tag').oninput = update;
 document.getElementById('master-key').focus();
-document.getElementById('master-key').onkeyup = update;
+document.getElementById('master-key').oninput = update;
 document.getElementById('master-key').onchange = update;
 document.getElementById('bump').onclick = onBump;
 document.getElementById('digitsOnly').onchange = onDigitsOnly;
