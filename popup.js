@@ -42,7 +42,7 @@ function update()
   // do something with response here, not outside the function
   //console.log(response);
 })();
-        submit.value = 'Another';
+        //submit.value = 'Another';
     }
     siteTagLast = siteTag.value;
     masterKeyLast = masterKey.value;
