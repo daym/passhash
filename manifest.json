@@ -7,7 +7,7 @@
   ],
   "options_page": "options.html",
   "action": {
-    "default_title": "Fill in hash derived from secret master key...",
+    "default_title": "Fill in hash derived from secret master key and site tag...",
     "default_popup": "popup.html"
   },
   "commands": {
