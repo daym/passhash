@@ -248,21 +248,6 @@ var PassHashCommon =
         }
         return tag;
     },
-
-    // Returns true if an HTML node is some kind of text field.
-    isTextNode: function(node)
-    {
-        try
-        {
-            var name = node.localName.toUpperCase();
-            if (name == "TEXTAREA" || name == "TEXTBOX" ||
-                        (name == "INPUT" &&
-                            (node.type == "text" || node.type == "password")))
-                return true;
-        }
-        catch(e) {}
-        return false;
-    },
 }
 
 document.getElementById('site-tag').onchange = update;
