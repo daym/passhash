@@ -1,8 +1,5 @@
 <!--!content:passhash-portable.js-->
 
-var siteTagLast = '';
-var masterKeyLast = '';
-
 async function update()
 {
     var siteTag   = document.getElementById('site-tag');
@@ -39,8 +36,6 @@ async function update()
         const response = await chrome.tabs.sendMessage(tab.id, {password: hashWord.value});
         //submit.value = 'Another';
     }
-    siteTagLast = siteTag.value;
-    masterKeyLast = masterKey.value;
 }
 
 <!--!content:passhash-common.js-->
