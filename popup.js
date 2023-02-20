@@ -1,4 +1,4 @@
-<!--!content:passhash-portable.js-->
+<!--!content:popup.js-->
 
 async function update()
 {
@@ -37,6 +37,52 @@ async function update()
         //submit.value = 'Another';
     }
 }
+
+document.getElementById('site-tag').onchange = update;
+document.getElementById('site-tag').oninput = update;
+document.getElementById('master-key').focus();
+document.getElementById('master-key').oninput = update;
+document.getElementById('master-key').onchange = update;
+document.getElementById('bump').onclick = async e => {
+    var siteTag = document.getElementById("site-tag");
+    siteTag.value = PassHashCommon.bumpSiteTag(siteTag.value);
+    await update();
+};
+document.getElementById('digitsOnly').onchange = async e => {
+    let fld = e.target;
+    document.getElementById('digit'      ).disabled = fld.checked;
+    document.getElementById('punctuation').disabled = fld.checked;
+    document.getElementById('mixedCase'  ).disabled = fld.checked;
+    document.getElementById('noSpecial'  ).disabled = fld.checked;
+    await update();
+};
+document.getElementById('noSpecial').onchange = async e => {
+    let fld = e.target;
+    document.getElementById('punctuation').disabled = fld.checked;
+    await update();
+};
+
+['size', 'digit', 'punctuation', 'mixedCase'].forEach(e => {
+  document.getElementById(e).onchange = update;
+})
+document.form.onsubmit = function() {
+   window.close()
+};
+
+chrome.tabs.query({active:true, currentWindow: true}, tabs => {
+    const tab = tabs[0];
+    var siteTag   = document.getElementById('site-tag');
+    let url = new URL(tab.url);
+    siteTag.value = PassHashCommon.getDomain(url).replace(/[.](com|org|net)$/i, '')
+})
+
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    var hashWord  = document.getElementById('hash-word');
+    alert(hashWord.value);
+    sendResponse({
+        hash: hashWord.value,
+    });
+});
 
 <!--!content:passhash-common.js-->
 /* ***** BEGIN LICENSE BLOCK *****
@@ -244,49 +290,3 @@ var PassHashCommon =
         return tag;
     },
 }
-
-document.getElementById('site-tag').onchange = update;
-document.getElementById('site-tag').oninput = update;
-document.getElementById('master-key').focus();
-document.getElementById('master-key').oninput = update;
-document.getElementById('master-key').onchange = update;
-document.getElementById('bump').onclick = async e => {
-    var siteTag = document.getElementById("site-tag");
-    siteTag.value = PassHashCommon.bumpSiteTag(siteTag.value);
-    await update();
-};
-document.getElementById('digitsOnly').onchange = async e => {
-    let fld = e.target;
-    document.getElementById('digit'      ).disabled = fld.checked;
-    document.getElementById('punctuation').disabled = fld.checked;
-    document.getElementById('mixedCase'  ).disabled = fld.checked;
-    document.getElementById('noSpecial'  ).disabled = fld.checked;
-    await update();
-};
-document.getElementById('noSpecial').onchange = async e => {
-    let fld = e.target;
-    document.getElementById('punctuation').disabled = fld.checked;
-    await update();
-};
-
-['size', 'digit', 'punctuation', 'mixedCase'].forEach(e => {
-  document.getElementById(e).onchange = update;
-})
-document.form.onsubmit = function() {
-   window.close()
-};
-
-chrome.tabs.query({active:true, currentWindow: true}, tabs => {
-    const tab = tabs[0];
-    var siteTag   = document.getElementById('site-tag');
-    let url = new URL(tab.url);
-    siteTag.value = PassHashCommon.getDomain(url).replace(/[.](com|org|net)$/i, '')
-})
-
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    var hashWord  = document.getElementById('hash-word');
-    alert(hashWord.value);
-    sendResponse({
-        hash: hashWord.value,
-    });
-});
