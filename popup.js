@@ -3,7 +3,7 @@
 var siteTagLast = '';
 var masterKeyLast = '';
 
-function update()
+async function update()
 {
     var siteTag   = document.getElementById('site-tag');
     var masterKey = document.getElementById('master-key');
@@ -25,7 +25,7 @@ function update()
         var requireMixedCase   = document.getElementById("mixedCase").checked;
         var restrictSpecial    = document.getElementById("noSpecial").checked;
         var restrictDigits     = document.getElementById("digitsOnly").checked;
-        hashWord.value = PassHashCommon.generateHashWord(
+        hashWord.value = await PassHashCommon.generateHashWord(
                 siteTag.value,
                 masterKey.value,
                 hashWordSize,
@@ -35,41 +35,13 @@ function update()
                 restrictSpecial,
                 restrictDigits);
         //hashWord.focus();
-        (async () => {
-//  const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
-  const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
-  const response = await chrome.tabs.sendMessage(tab.id, {password: hashWord.value});
-  // do something with response here, not outside the function
-  //console.log(response);
-})();
+        //  const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+        const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
+        const response = await chrome.tabs.sendMessage(tab.id, {password: hashWord.value});
         //submit.value = 'Another';
     }
     siteTagLast = siteTag.value;
     masterKeyLast = masterKey.value;
-}
-
-function onNoSpecial(e)
-{
-    let fld = e.target;
-    document.getElementById('punctuation').disabled = fld.checked;
-    update();
-}
-
-function onDigitsOnly(e)
-{
-    let fld = e.target;
-    document.getElementById("digit"      ).disabled = fld.checked;
-    document.getElementById("punctuation").disabled = fld.checked;
-    document.getElementById("mixedCase"  ).disabled = fld.checked;
-    document.getElementById("noSpecial"  ).disabled = fld.checked;
-    update();
-}
-
-function onBump()
-{
-    var siteTag = document.getElementById("site-tag");
-    siteTag.value = PassHashCommon.bumpSiteTag(siteTag.value);
-    update();
 }
 
 <!--!content:passhash-sha1.js-->
@@ -359,7 +331,7 @@ var PassHashCommon =
     // far more difficult to guess the injected special characters without
     // knowing the master key.
     // TODO: Is it ok to assume ASCII is ok for adjustments?
-    generateHashWord: function(
+    generateHashWord: async function(
                 siteTag,
                 masterKey,
                 hashWordSize,
@@ -517,9 +489,25 @@ document.getElementById('site-tag').oninput = update;
 document.getElementById('master-key').focus();
 document.getElementById('master-key').oninput = update;
 document.getElementById('master-key').onchange = update;
-document.getElementById('bump').onclick = onBump;
-document.getElementById('digitsOnly').onchange = onDigitsOnly;
-document.getElementById('noSpecial').onchange = onNoSpecial;
+document.getElementById('bump').onclick = async e => {
+    var siteTag = document.getElementById("site-tag");
+    siteTag.value = PassHashCommon.bumpSiteTag(siteTag.value);
+    await update();
+};
+document.getElementById('digitsOnly').onchange = async e => {
+    let fld = e.target;
+    document.getElementById('digit'      ).disabled = fld.checked;
+    document.getElementById('punctuation').disabled = fld.checked;
+    document.getElementById('mixedCase'  ).disabled = fld.checked;
+    document.getElementById('noSpecial'  ).disabled = fld.checked;
+    await update();
+};
+document.getElementById('noSpecial').onchange = async e => {
+    let fld = e.target;
+    document.getElementById('punctuation').disabled = fld.checked;
+    await update();
+};
+
 ['size', 'digit', 'punctuation', 'mixedCase'].forEach(e => {
   document.getElementById(e).onchange = update;
 })
